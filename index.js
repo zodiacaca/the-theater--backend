@@ -12,14 +12,19 @@ app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, '/static/_site')))
 app.use(express.static(path.join(__dirname, '/cdn')))
 
-app.get('/feed/titles', async function(req, res) {
+app.get('/feed/titles', (req, res) => {
   const from = req.query.from
   const to = req.query.to
 
-  const raw = await fs.readFile('/titles.json')
-  const cooked = JSON.parse(raw)
+  fs.readFile(path.join(__dirname, '/titles.json'), (err, data) => {
+    if (err) {
+      throw err
+    } else {
+      const list = JSON.parse(data)
 
-  return res.send(cooked)
+      return res.send(list)
+    }
+  })
 })
 // app.post('/', (req, res) => {
 //   return res.send('Received a POST HTTP method')
