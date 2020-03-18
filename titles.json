@@ -5,21 +5,24 @@
       "id": "AE0WJaEh",
       "type": "series",
       "seasons": [5],
-      "length": "2m"
+      "length": "2m",
+      "poster": "/images/posters/(2019)Chernobyl.jpg"
     },
     {
       "title": "网络迷踪",
       "id": "PmyrgyCI",
       "type": "movie",
       "seasons": [],
-      "length": "2h"
+      "length": "2h",
+      "poster": "/images/posters/(2018)Searching.jpg"
     },
     {
       "title": "切尔诺贝利",
       "id": "tu4bLEax",
       "type": "series",
       "seasons": [5],
-      "length": "50m"
+      "length": "50m",
+      "poster": "/images/posters/(2019)Chernobyl.jpg"
     }
   ]
 }
