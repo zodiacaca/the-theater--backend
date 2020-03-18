@@ -1,6 +1,6 @@
 ﻿$file_path = "E:\NAS-01-E\Chernobyl\Chernobyl.mkv"
 $subtitle_path = ""
-$output_path = "C:\Users\Steve\WebApp\express-video\cdn\videos\AE0WJaEh"
+$output_path = "C:\Users\Steve\WebApp\the-theater\cdn\videos\AE0WJaEh"
 $file = [System.IO.DirectoryInfo]($file_path)
 $subtitle = [System.IO.DirectoryInfo]($subtitle_path)
 $ffmpeg_path = "C:\Program Files\FFmpeg\bin\"
@@ -29,6 +29,8 @@ for ($i = 0; $i -lt $qualities.length; $i++) {
   $params.Add("-ac")
   $params.Add("2")
 
+  # $params.Add("-crf")
+  # $params.Add("15")
   $params.Add("-preset")
   $params.Add("slower")
 
