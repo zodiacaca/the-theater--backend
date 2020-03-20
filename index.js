@@ -26,6 +26,12 @@ app.get('/feed/titles', (req, res) => {
     }
   })
 })
+app.get('/watch', (req, res) => {
+  const s = req.query.s
+  const e = req.query.e
+
+  res.sendFile(path.join(__dirname, '/static/_site/watch.html'))
+})
 // app.post('/', (req, res) => {
 //   return res.send('Received a POST HTTP method')
 // })
