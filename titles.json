@@ -4,7 +4,8 @@
       "title": "Demo",
       "id": "AE0WJaEh",
       "type": "series",
-      "seasons": [5],
+      "seasons": null,
+      "OVAs": null,
       "length": "2m",
       "poster": "/images/posters/(2019)Chernobyl.jpg"
     },
@@ -12,7 +13,8 @@
       "title": "网络迷踪",
       "id": "PmyrgyCI",
       "type": "movie",
-      "seasons": [],
+      "seasons": null,
+      "OVAs": null,
       "length": "2h",
       "poster": "/images/posters/(2018)Searching.jpg"
     },
@@ -21,6 +23,7 @@
       "id": "tu4bLEax",
       "type": "series",
       "seasons": [5],
+      "OVAs": null,
       "length": "50m",
       "poster": "/images/posters/(2019)Chernobyl.jpg"
     }

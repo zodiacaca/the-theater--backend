@@ -6,6 +6,7 @@ const express = require('express')
 const app = express()
 
 const bodyParser = require('body-parser')
+const cheerio = require('cheerio')
 
 app.use(bodyParser.json())
 
@@ -27,10 +28,23 @@ app.get('/feed/titles', (req, res) => {
   })
 })
 app.get('/watch', (req, res) => {
+  const id = req.query.id
   const s = req.query.s
   const e = req.query.e
 
-  res.sendFile(path.join(__dirname, '/static/_site/watch.html'))
+  fs.readFile(path.join(__dirname, '/static/_site/watch.html'), 'utf8', (err, data) => {
+    if (err) {
+      throw err
+    } else {
+      const $ = cheerio.load(data)
+      $('video').attr('id', id)
+      s ? $('video').attr('s', s) : null
+      e ? $('video').attr('e', e) : null
+
+      res.type('text/html')
+      return res.send($.html())
+    }
+  })
 })
 // app.post('/', (req, res) => {
 //   return res.send('Received a POST HTTP method')
