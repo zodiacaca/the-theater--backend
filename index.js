@@ -1,5 +1,18 @@
 
 const path = require('path')
+const CONFIG = {
+  env: 'local',
+
+  static: path.join(__dirname, '/static/_site'),
+  cdn: path.join(__dirname, '/cdn'),
+  page: {
+    watch: path.join(__dirname, '/static/_site/watch.html'),
+  },
+
+  host: '0.0.0.0',
+  port: 3000,
+}
+
 const fs = require('fs')
 
 const express = require('express')
@@ -10,8 +23,10 @@ const cheerio = require('cheerio')
 
 app.use(bodyParser.json())
 
-app.use(express.static(path.join(__dirname, '/static/_site')))
-app.use(express.static(path.join(__dirname, '/cdn')))
+if (CONFIG.env == 'local') {
+  app.use(express.static(CONFIG.static))
+  app.use(express.static(CONFIG.cdn))
+}
 
 app.get('/feed/titles', (req, res) => {
   const from = req.query.from
@@ -32,7 +47,7 @@ app.get('/watch', (req, res) => {
   const s = req.query.s
   const e = req.query.e
 
-  fs.readFile(path.join(__dirname, '/static/_site/watch.html'), 'utf8', (err, data) => {
+  fs.readFile(CONFIG.page.watch, 'utf8', (err, data) => {
     if (err) {
       throw err
     } else {
@@ -51,13 +66,13 @@ app.get('/watch', (req, res) => {
 // })
 app.put('/performance_analyse', (req, res) => {
   console.log(req.body)
-  return res.send('Received a PUT HTTP method')
+  return res.send('Received.')
 })
 // app.delete('/', (req, res) => {
 //   return res.send('Received a DELETE HTTP method')
 // })
 
 const port = 3000
-app.listen(port, '0.0.0.0', () =>
+app.listen(CONFIG.port, CONFIG.host, () =>
   console.log(`App is listening on port ${port}.`)
 )
