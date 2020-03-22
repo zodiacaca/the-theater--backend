@@ -61,11 +61,44 @@ app.get('/watch', (req, res) => {
     }
   })
 })
+app.get('/checkMediaFile', (req, res) => {
+  const path = req.body
+  fs.readFile(path, (err, data) => {
+    if (err) {
+
+    } else {
+      return res.send('Exist.')
+    }
+  })
+})
 // app.post('/', (req, res) => {
 //   return res.send('Received a POST HTTP method')
 // })
-app.put('/performance_analyse', (req, res) => {
-  console.log(req.body)
+app.put('/performance_analyse', async (req, res) => {
+  const dir = '/analyse_data/browser_usage'
+  const currentTime = new Date().getTime()
+
+  // write new
+  const data = JSON.stringify(req.body)
+  await writeFile(`${dir}/${currentTime}.txt`, data)
+
+  // delete oldest
+  const limit = 2
+  const period  = 3600 * 24 * 7 * 1000
+
+  const files = await readDir(dir)
+  if (files.length >= limit) {
+    files.forEach((filename) => {
+      const filePath = path.join(dir, filename)
+      const fileStat = await readFileStat(filePath)
+      const creationTime = new Date(fileStat.ctime).getTime()
+
+      if (currentTime - creationTime >= period ) {
+        await deleteFile(filePath)
+      }
+    })
+  }
+
   return res.send('Received.')
 })
 // app.delete('/', (req, res) => {
