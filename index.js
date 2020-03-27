@@ -21,6 +21,8 @@ const app = express()
 const bodyParser = require('body-parser')
 const cheerio = require('cheerio')
 
+const fsp = require('/modules/fsp.js')
+
 app.use(bodyParser.json())
 
 if (CONFIG.env == 'local') {
@@ -80,21 +82,21 @@ app.put('/performance_analyse', async (req, res) => {
 
   // write new
   const data = JSON.stringify(req.body)
-  await writeFile(`${dir}/${currentTime}.txt`, data)
+  await fsp.writeFile(`${dir}/${currentTime}.txt`, data)
 
   // delete oldest
   const limit = 2
   const period  = 3600 * 24 * 7 * 1000
 
-  const files = await readDir(dir)
+  const files = await fsp.readDir(dir)
   if (files.length >= limit) {
     files.forEach((filename) => {
       const filePath = path.join(dir, filename)
-      const fileStat = await readFileStat(filePath)
+      const fileStat = await fsp.readFileStat(filePath)
       const creationTime = new Date(fileStat.ctime).getTime()
 
       if (currentTime - creationTime >= period ) {
-        await deleteFile(filePath)
+        await fsp.deleteFile(filePath)
       }
     })
   }
