@@ -21,7 +21,7 @@ const app = express()
 const bodyParser = require('body-parser')
 const cheerio = require('cheerio')
 
-const fsp = require('/modules/fsp.js')
+const fsp = require('./modules/fsp.js')
 
 app.use(bodyParser.json())
 
@@ -34,7 +34,7 @@ app.get('/feed/titles', (req, res) => {
   const from = req.query.from
   const to = req.query.to
 
-  fs.readFile(path.join(__dirname, '/titles.json'), (err, data) => {
+  fs.readFile('./titles.json', (err, data) => {
     if (err) {
       throw err
     } else {
@@ -77,7 +77,7 @@ app.get('/checkMediaFile', (req, res) => {
 //   return res.send('Received a POST HTTP method')
 // })
 app.put('/performance_analyse', async (req, res) => {
-  const dir = '/analyse_data/browser_usage'
+  const dir = './analyse_data/browser_usage'
   const currentTime = new Date().getTime()
 
   // write new
@@ -90,7 +90,7 @@ app.put('/performance_analyse', async (req, res) => {
 
   const files = await fsp.readDir(dir)
   if (files.length >= limit) {
-    files.forEach((filename) => {
+    files.forEach(async (filename) => {
       const filePath = path.join(dir, filename)
       const fileStat = await fsp.readFileStat(filePath)
       const creationTime = new Date(fileStat.ctime).getTime()
