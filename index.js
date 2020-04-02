@@ -1,8 +1,6 @@
 
 const path = require('path')
 const CONFIG = {
-  env: 'local',
-
   static: path.join(__dirname, '/static/_site'),
   cdn: path.join(__dirname, '/cdn'),
   page: {
@@ -25,8 +23,8 @@ const fsp = require('./modules/fsp.js')
 
 app.use(bodyParser.json())
 
-if (CONFIG.env == 'local') {
-  app.use(express.static(CONFIG.static))
+app.use(express.static(CONFIG.static))
+if (CONFIG.cdn) {
   app.use(express.static(CONFIG.cdn))
 }
 
@@ -34,7 +32,7 @@ app.get('/feed/titles', (req, res) => {
   const from = req.query.from
   const to = req.query.to
 
-  fs.readFile('./titles.json', (err, data) => {
+  fs.readFile(path.join(__dirname, '/titles.json'), (err, data) => {
     if (err) {
       throw err
     } else {
@@ -77,7 +75,7 @@ app.get('/checkMediaFile', (req, res) => {
 //   return res.send('Received a POST HTTP method')
 // })
 app.put('/performance_analyse', async (req, res) => {
-  const dir = './analyse_data/browser_usage'
+  const dir = path.join(__dirname, '/analyse_data/browser_usage')
   const currentTime = new Date().getTime()
 
   // write new
@@ -85,7 +83,7 @@ app.put('/performance_analyse', async (req, res) => {
   await fsp.writeFile(`${dir}/${currentTime}.txt`, data)
 
   // delete oldest
-  const limit = 2
+  const limit = 20
   const period  = 3600 * 24 * 7 * 1000
 
   const files = await fsp.readDir(dir)
