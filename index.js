@@ -1,14 +1,26 @@
 
+const env = process.argv[2] ? process.argv[2] : 'local'
+
 const path = require('path')
 const CONFIG = {
-  static: path.join(__dirname, '/static/_site'),
-  cdn: path.join(__dirname, '/cdn'),
+  static: undefined,
+  CDN: undefined,
   page: {
-    watch: path.join(__dirname, '/static/_site/watch.html'),
+    watch: undefined,
   },
 
   host: '0.0.0.0',
+  // host: '127.0.0.1',
   port: 3000,
+}
+
+if (env === 'public') {
+  CONFIG.static = '/var/www/theater.nite-bite.gq'
+  CONFIG.page.watch = '/var/www/theater.nite-bite.gq/watch.html'
+} else {
+  CONFIG.static = path.join(__dirname, '/static/_site')
+  CONFIG.CDN = path.join(__dirname, '/cdn')
+  CONFIG.page.watch = path.join(__dirname, '/static/_site/watch.html')
 }
 
 const fs = require('fs')
@@ -24,8 +36,8 @@ const fsp = require('./modules/fsp.js')
 app.use(bodyParser.json())
 
 app.use(express.static(CONFIG.static))
-if (CONFIG.cdn) {
-  app.use(express.static(CONFIG.cdn))
+if (CONFIG.CDN) {
+  app.use(express.static(CONFIG.CDN))
 }
 
 app.get('/feed/titles', (req, res) => {
@@ -105,7 +117,6 @@ app.put('/performance_analyse', async (req, res) => {
 //   return res.send('Received a DELETE HTTP method')
 // })
 
-const port = 3000
 app.listen(CONFIG.port, CONFIG.host, () =>
-  console.log(`App is listening on port ${port}.`)
+  console.log(`App is listening on port ${CONFIG.port}.`)
 )
