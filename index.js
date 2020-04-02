@@ -16,6 +16,7 @@ const CONFIG = {
 
 if (env === 'public') {
   CONFIG.static = '/var/www/theater.nite-bite.gq'
+  CONFIG.CDN = '/var/local'
   CONFIG.page.watch = '/var/www/theater.nite-bite.gq/watch.html'
 } else {
   CONFIG.static = path.join(__dirname, '/static/_site')
@@ -74,12 +75,13 @@ app.get('/watch', (req, res) => {
   })
 })
 app.get('/checkMediaFile', (req, res) => {
-  const path = req.body
-  fs.readFile(path, (err, data) => {
-    if (err) {
+  const file = path.join(CONFIG.CDN, 'videos', req.query.id, req.query.s, req.query.e, 'stream.mpd')
 
+  fs.readFile(file, (err, data) => {
+    if (err) {
+      return res.sendStatus(404)
     } else {
-      return res.send('Exist.')
+      return res.sendStatus(202)
     }
   })
 })
