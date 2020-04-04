@@ -94,7 +94,7 @@ app.put('/performance_analyse', async (req, res) => {
 
   // write new
   const data = JSON.stringify(req.body)
-  await fsp.writeFile(`${dir}/${currentTime}.txt`, data)
+  await fsp.writeFile(`${dir}/${currentTime}.json`, data)
 
   // delete oldest
   const limit = 20
