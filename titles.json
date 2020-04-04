@@ -26,6 +26,24 @@
       "OVAs": null,
       "length": "50m",
       "poster": "/images/posters/(2019)Chernobyl.jpg"
+    },
+    {
+      "title": "斯隆女士",
+      "id": "2Iz0bsb6",
+      "type": "movie",
+      "seasons": null,
+      "OVAs": null,
+      "length": "2h",
+      "poster": "/images/posters/(2016)Miss Sloane.jpg"
+    },
+    {
+      "title": "小丑",
+      "id": "owPfCXtb",
+      "type": "movie",
+      "seasons": null,
+      "OVAs": null,
+      "length": "2h",
+      "poster": "/images/posters/(2019)Joker.jpg"
     }
   ]
 }
