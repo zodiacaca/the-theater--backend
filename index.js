@@ -9,8 +9,6 @@ const CONFIG = {
     watch: undefined,
   },
 
-  host: '0.0.0.0',
-  // host: '127.0.0.1',
   port: 3000,
 }
 
@@ -18,10 +16,14 @@ if (env === 'public') {
   CONFIG.static = '/var/www/theater.nite-bite.gq'
   CONFIG.CDN = '/var/local'
   CONFIG.page.watch = '/var/www/theater.nite-bite.gq/watch.html'
+
+  CONFIG.host = '127.0.0.1'
 } else {
   CONFIG.static = path.join(__dirname, '/static/_site')
   CONFIG.CDN = path.join(__dirname, '/cdn')
   CONFIG.page.watch = path.join(__dirname, '/static/_site/watch.html')
+
+  CONFIG.host = '0.0.0.0'
 }
 
 const fs = require('fs')
